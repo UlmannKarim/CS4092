@@ -10,7 +10,7 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-//=-
+//+
 
 public class PeopleFromXML {
     private Person [] people;
