@@ -17,11 +17,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     private Context context;
     private int layoutID;
     private String [] names;
+    InterfaceRecycleView recycleViewInterface;
 
-    public DataAdapter(Context context, int layoutID, String[] names) {
+    public DataAdapter(Context context, int layoutID, String[] names, InterfaceRecycleView recycleViewInterface) {
         this.context = context;
         this.layoutID = layoutID;
         this.names = names;
+        this.recycleViewInterface = recycleViewInterface;
     }
 
 
@@ -31,7 +33,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         // inflate the layout and make it a viewholder
         View v = LayoutInflater.from(this.context).inflate(layoutID, parent, false);
 
-        return new ViewHolder(v);
+        return new ViewHolder(v,recycleViewInterface);
     }
 
     @Override
@@ -40,16 +42,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         holder.name.setText(names[position]);
         holder.image.setImageResource(R.drawable.sabin);
 
-        // is there any interaction
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // do something with item position
-                Toast.makeText(context,
-                        ((TextView)view).getText().toString(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -64,11 +56,25 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         public TextView name;
         public ImageView image;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, InterfaceRecycleView recycleViewInterface) {
             super(itemView);
 
             name  = itemView.findViewById(R.id.textView);
             image = itemView.findViewById(R.id.imageView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // call the InterfaceRecycleView method
+                    if (recycleViewInterface != null){
+                        int posistion = getAdapterPosition();
+                        if(posistion != RecyclerView.NO_POSITION){
+                            recycleViewInterface.onItemClick(posistion);
+                        }
+
+                    }
+                }
+            });
         }
     }
 }
