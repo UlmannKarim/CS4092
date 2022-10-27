@@ -12,10 +12,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements InterfaceRecycleView {
+//public class MainActivity extends AppCompatActivity implements InterfaceRecycleView {
+public class MainActivity extends AppCompatActivity {
+
     public RecyclerView recyclerView = null;
     public DataAdapter adapter = null;
-    public PeopleFromXML people = null;
+    public AirlinesFromXML airlines = null;
 
    //public People [] names = {"Sabin T", "Sabin Tab", "Sabin Tabir", "Sabin Tabirca", "Sabin Ttt", "Sabin Tttttt"};
 
@@ -29,30 +31,30 @@ public class MainActivity extends AppCompatActivity implements InterfaceRecycleV
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        people = new PeopleFromXML(this);
-
-
+        airlines = new AirlinesFromXML(this);
         // make adapter for it
-        String [] names = people.getNames();
-        adapter = new DataAdapter(this, R.layout.row_layout, names, this);
+        Airline[] airlinesList = airlines.getAirlines();
+
+
+        adapter = new DataAdapter(this, R.layout.row_layout, airlinesList);
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onItemClick(int position) {
-        // what to do when click a list item?
-
-        // get data associate with pos
-
-        Person person = people.getPerson(position);
-        Bundle bundle = new Bundle();
-        // make an intent + place the bundle on it + start activity
-
-        Toast.makeText(this,
-                person.getName(),
-                Toast.LENGTH_LONG).show();
-
-    }
+//    @Override
+//    public void onItemClick(int position) {
+//        // what to do when click a list item?
+//
+//        // get data associate with pos
+//
+//        Airline airline = airlines.getAirline(position);
+//        Bundle bundle = new Bundle();
+//        // make an intent + place the bundle on it + start activity
+//
+//        Toast.makeText(this,
+//                airline.getName(),
+//                Toast.LENGTH_LONG).show();
+//
+//    }
 }
 
 // for marks

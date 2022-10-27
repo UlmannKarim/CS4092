@@ -6,23 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
     // ivar for DataAdapter
     private Context context;
     private int layoutID;
-    private String [] names;
+    private Airline[] airlines;
     InterfaceRecycleView recycleViewInterface;
 
-    public DataAdapter(Context context, int layoutID, String[] names, InterfaceRecycleView recycleViewInterface) {
+    public DataAdapter(Context context, int layoutID, Airline[] airlines) {
         this.context = context;
         this.layoutID = layoutID;
-        this.names = names;
+        this.airlines = airlines;
         this.recycleViewInterface = recycleViewInterface;
     }
 
@@ -39,14 +39,24 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // populate viewholder with model data
-        holder.name.setText(names[position]);
-        holder.image.setImageResource(R.drawable.sabin);
+        holder.name.setText(airlines[position].getName());
+        holder.rank.setText(airlines[position].getRanking());
 
+
+        /// check below!
+        String airlineLogo = airlines[position].getLogo();
+        Integer id = context.getResources().getIdentifier(airlineLogo, "drawable", context.getPackageName());
+        holder.logo.setImageResource(id);
+        Log.d("Test image", id.toString());
+
+
+
+        //holder.image.setImageResource(imageID);
     }
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return airlines.length;
     }
 
 
@@ -54,13 +64,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView name;
-        public ImageView image;
+        public ImageView logo;
+        public TextView rank;
 
         public ViewHolder(@NonNull View itemView, InterfaceRecycleView recycleViewInterface) {
             super(itemView);
 
             name  = itemView.findViewById(R.id.textView);
-            image = itemView.findViewById(R.id.imageView);
+            logo = itemView.findViewById(R.id.imageView);
+            rank = itemView.findViewById(R.id.textViewSubtitle);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,3 +90,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         }
     }
 }
+
+// pull parser?
+// max ten
